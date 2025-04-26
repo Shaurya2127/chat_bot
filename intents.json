@@ -1,0 +1,39 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Is anyone there?",
+        "Good day"
+      ],
+      "responses": [
+        "Hello! How can I assist you today?",
+        "Hi there, what do you need help with?"
+      ]
+    },
+    {
+      "tag": "admissions",
+      "patterns": [
+        "How do I apply?",
+        "Tell me about the admission process"
+      ],
+      "responses": [
+        "You can apply online through our admissions portal on the college website."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye"
+      ],
+      "responses": [
+        "Goodbye! Have a great day.",
+        "See you soon!"
+      ]
+    }
+  ]
+}

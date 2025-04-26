@@ -1,0 +1,7 @@
+streamlit
+numpy
+tensorflow
+nltk
+tensorflow==2.13.0
+scikit-learn
+
