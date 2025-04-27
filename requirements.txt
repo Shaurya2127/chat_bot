@@ -1,6 +1,7 @@
 streamlit>=1.32.0
 numpy>=1.24.0
 tensorflow>=2.12.0
+keras
 nltk>=3.8.1
 scikit-learn
 pickle-mixin
