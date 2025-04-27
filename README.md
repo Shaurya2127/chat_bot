@@ -1,9 +1,9 @@
-🎓 Student FAQ Chatbot
+#🎓 Student FAQ Chatbot
 Welcome to the Student FAQ Chatbot — your virtual assistant for answering questions about college admissions, campus life, and more!
 
 This chatbot was built using Streamlit, TensorFlow, NLTK, and deep learning techniques to understand and respond intelligently to student queries.
 
-🚀 Features
+#🚀 Features
 Understands natural language questions
 
 Answers FAQs about college life, admissions, and academics
@@ -14,7 +14,7 @@ Clean and interactive UI built with Streamlit
 
 Ready for real-world deployment
 
-🛠️ Built With
+#🛠️ Built With
 Python 3
 
 TensorFlow/Keras (Neural Networks)
@@ -23,7 +23,7 @@ NLTK (Natural Language Processing)
 
 Streamlit (Web App Deployment)
 
-📂 Project Structure
+#📂 Project Structure
 
 
 chat_bot/
@@ -36,7 +36,7 @@ chat_bot/
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
 
-📦 Installation
+#📦 Installation
 Clone this repository:
 git clone https://github.com/your-username/chat_bot.git
 cd chat_bot
@@ -50,18 +50,18 @@ nltk.download('wordnet')
 Run the app locally:
 streamlit run app.py
 
-🌐 Live Demo
+#🌐 Live Demo
 Click here to try the chatbot live!
 https://chatbotyappwnnrxbbarawtgnizwte.streamlit.app/
 
-🙌 Acknowledgments
+#🙌 Acknowledgments
 Special thanks to the open-source community and Streamlit Cloud for making deployment so easy!
 
-✨ About the Creator
+#✨ About the Creator
 Made with ❤️ by Shaurya Chauhan
 (Feel free to add your portfolio or email too!)
 
-📌 Screenshots
+#📌 Screenshots
 ![image](https://github.com/user-attachments/assets/bae03d4f-60d6-46b8-aa1d-27a04569b748)
 
 
