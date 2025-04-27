@@ -12,19 +12,8 @@ import pickle
 import random
 import numpy as np
 import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
 import os
 
-# Download 'punkt' to a known location (e.g., /tmp)
-nltk.data.path.append('/tmp')
-if not os.path.exists('/tmp/tokenizers/punkt'):
-    nltk.download('punkt', download_dir='/tmp')
-if not os.path.exists('/tmp/corpora/wordnet'):
-    nltk.download('wordnet', download_dir='/tmp')
-if not os.path.exists('/tmp/corpora/omw-1.4'):
-    nltk.download('omw-1.4', download_dir='/tmp')
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 
@@ -37,7 +26,7 @@ words = pickle.load(open("words.pkl", "rb"))
 classes = pickle.load(open("classes.pkl", "rb"))
 
 def clean_up_sentence(sentence):
-    sentence_words = nltk.word_tokenize(sentence)
+    sentence_words = sentence.split()
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
     return sentence_words
 
