@@ -8,51 +8,91 @@ Original file is located at
 """
 
 import streamlit as st
+import random
 import json
-from chatbot_responses import predict_class, get_response, intents
+import pickle
+import numpy as np
+from tensorflow.keras.models import load_model
 import nltk
-import time
+from nltk.stem import WordNetLemmatizer
 
-nltk.data.path.append('/tmp')
-nltk.download('punkt', download_dir='/tmp')
-nltk.download('wordnet', download_dir='/tmp')
-nltk.download('omw-1.4', download_dir='/tmp')
+# Load data and model
+lemmatizer = WordNetLemmatizer()
+model = load_model("chatbot_model.h5")
+intents = json.loads(open("intents.json").read())
+words = pickle.load(open("words.pkl", "rb"))
+classes = pickle.load(open("classes.pkl", "rb"))
 
-st.set_page_config(page_title="Student FAQ Chatbot", page_icon="🤖", layout="centered")
+# Functions
+def clean_up_sentence(sentence):
+    sentence_words = nltk.word_tokenize(sentence)
+    sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
+    return sentence_words
 
-st.markdown("""
-    <h1 style="text-align: center; color: #6C63FF;">🎓 Student Support Chatbot 🤖</h1>
-    <p style="text-align: center;">Ask me anything about your courses, admissions, or college life!</p>
-    <hr>
-""", unsafe_allow_html=True)
+def bow(sentence, words):
+    sentence_words = clean_up_sentence(sentence)
+    bag = [0] * len(words)
+    for s in sentence_words:
+        for i, w in enumerate(words):
+            if w == s:
+                bag[i] = 1
+    return np.array(bag)
 
-# Store chat messages
+def predict_class(sentence):
+    p = bow(sentence, words)
+    res = model.predict(np.array([p]))[0]
+    ERROR_THRESHOLD = 0.25
+    results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
+    results.sort(key=lambda x: x[1], reverse=True)
+    return_list = []
+    for r in results:
+        return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
+    return return_list
+
+def get_response(ints, intents_json):
+    if not ints:
+        return "I'm not sure how to help with that. Could you try rephrasing?"
+    tag = ints[0]['intent']
+    for i in intents_json['intents']:
+        if i['tag'] == tag:
+            return random.choice(i['responses'])
+
+# Streamlit app
+
+st.set_page_config(page_title="Student Support Chatbot", page_icon="🤖")
+st.title("🎓 Student Support Chatbot")
+
+# Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Show chat history
+# Display previous messages
 for message in st.session_state.messages:
     if message["role"] == "user":
-        st.markdown(f"<div style='text-align: right; background-color: #DCF8C6; padding: 8px; border-radius: 10px; margin-bottom:5px;'><b>You:</b> {message['content']}</div>", unsafe_allow_html=True)
+        with st.chat_message("user"):
+            st.markdown(message["content"])
     else:
-        st.markdown(f"<div style='text-align: left; background-color: #F1F0F0; padding: 8px; border-radius: 10px; margin-bottom:5px;'><b>🤖 Bot:</b> {message['content']}</div>", unsafe_allow_html=True)
+        with st.chat_message("assistant"):
+            st.markdown(message["content"])
 
-# User input
-user_input = st.text_input("Type your question here...", key="user_input")
+# Chat input
+user_input = st.chat_input("Type your message here...")
 
 if user_input:
-    # Append user message immediately
+    # Display user message
+    st.chat_message("user").markdown(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Show spinner while bot is "thinking"
-    with st.spinner('🤖 Bot is typing...'):
+    # Get response
+    with st.spinner("Thinking... 🤔"):
         ints = predict_class(user_input)
-        time.sleep(1)  # fake wait (optional, looks natural)
         res = get_response(ints, intents)
+        
+    # Display bot message
+    st.chat_message("assistant").markdown(res)
+    st.session_state.messages.append({"role": "assistant", "content": res})
 
-    # Append bot response
-    st.session_state.messages.append({"role": "bot", "content": res})
+    # Optional rerun (only if needed for something dynamic)
+    # st.rerun()
 
-    # Rerun to refresh
-    st.rerun()
 
