@@ -11,19 +11,47 @@ import streamlit as st
 import json
 from chatbot_responses import predict_class, get_response
 import nltk
+import time
 
 nltk.data.path.append('/tmp')
 nltk.download('punkt', download_dir='/tmp')
 nltk.download('wordnet', download_dir='/tmp')
 nltk.download('omw-1.4', download_dir='/tmp')
 
-st.set_page_config(page_title="Student FAQ Chatbot", layout="centered")
-st.title("🎓 Student FAQ Chatbot")
-st.markdown("Ask me anything about college admissions, campus life, or more!")
+st.set_page_config(page_title="Student FAQ Chatbot", page_icon="🤖", layout="centered")
 
-user_input = st.text_input("You:")
+st.markdown("""
+    <h1 style="text-align: center; color: #6C63FF;">🎓 Student Support Chatbot 🤖</h1>
+    <p style="text-align: center;">Ask me anything about your courses, admissions, or college life!</p>
+    <hr>
+""", unsafe_allow_html=True)
+
+# Store chat messages
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# Show chat history
+for message in st.session_state.messages:
+    if message["role"] == "user":
+        st.markdown(f"<div style='text-align: right; background-color: #DCF8C6; padding: 8px; border-radius: 10px; margin-bottom:5px;'><b>You:</b> {message['content']}</div>", unsafe_allow_html=True)
+    else:
+        st.markdown(f"<div style='text-align: left; background-color: #F1F0F0; padding: 8px; border-radius: 10px; margin-bottom:5px;'><b>🤖 Bot:</b> {message['content']}</div>", unsafe_allow_html=True)
+
+# User input
+user_input = st.text_input("Type your question here...", key="user_input")
 
 if user_input:
-    ints = predict_class(user_input)
-    res = get_response(ints, json.loads(open("intents.json").read()))
-    st.text_area("Chatbot:", value=res, height=100, max_chars=None)
+    # Append user message immediately
+    st.session_state.messages.append({"role": "user", "content": user_input})
+
+    # Show spinner while bot is "thinking"
+    with st.spinner('🤖 Bot is typing...'):
+        ints = predict_class(user_input)
+        time.sleep(1)  # fake wait (optional, looks natural)
+        res = get_response(ints)
+
+    # Append bot response
+    st.session_state.messages.append({"role": "bot", "content": res})
+
+    # Rerun to refresh
+    st.experimental_rerun()
