@@ -9,7 +9,7 @@ Original file is located at
 
 import streamlit as st
 import json
-from chatbot_responses import predict_class, get_response
+from chatbot_responses import predict_class, get_response, intents
 import nltk
 import time
 
@@ -48,7 +48,7 @@ if user_input:
     with st.spinner('🤖 Bot is typing...'):
         ints = predict_class(user_input)
         time.sleep(1)  # fake wait (optional, looks natural)
-        res = get_response(ints)
+        res = get_response(ints, intents)
 
     # Append bot response
     st.session_state.messages.append({"role": "bot", "content": res})
