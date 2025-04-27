@@ -62,6 +62,7 @@ Made with ❤️ by Shaurya Chauhan
 (Feel free to add your portfolio or email too!)
 
 📌 Screenshots
-![image](https://github.com/user-attachments/assets/e20724f5-52ec-4b7d-911e-a4e9b664b918)
-![chatbot](https://github.com/user-attachments/assets/44b0f4cc-627d-4a08-b59b-7d2c04f142c4)
+![image](https://github.com/user-attachments/assets/bae03d4f-60d6-46b8-aa1d-27a04569b748)
+
+
 
