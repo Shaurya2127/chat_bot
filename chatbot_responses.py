@@ -12,6 +12,9 @@ import pickle
 import random
 import numpy as np
 import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 import os
 
 # Download 'punkt' to a known location (e.g., /tmp)
