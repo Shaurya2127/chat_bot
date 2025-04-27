@@ -54,4 +54,5 @@ if user_input:
     st.session_state.messages.append({"role": "bot", "content": res})
 
     # Rerun to refresh
-    st.experimental_rerun()
+    st.rerun()
+
