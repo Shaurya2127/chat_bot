@@ -10,6 +10,12 @@ Original file is located at
 import streamlit as st
 import json
 from chatbot_responses import predict_class, get_response
+import nltk
+
+nltk.data.path.append('/tmp')
+nltk.download('punkt', download_dir='/tmp')
+nltk.download('wordnet', download_dir='/tmp')
+nltk.download('omw-1.4', download_dir='/tmp')
 
 st.set_page_config(page_title="Student FAQ Chatbot", layout="centered")
 st.title("🎓 Student FAQ Chatbot")
