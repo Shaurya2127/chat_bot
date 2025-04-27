@@ -12,7 +12,12 @@ import pickle
 import random
 import numpy as np
 import nltk
-nltk.download('punkt')
+import os
+
+# Download 'punkt' to a known location (e.g., /tmp)
+nltk.data.path.append('/tmp')
+if not os.path.exists('/tmp/tokenizers/punkt'):
+    nltk.download('punkt', download_dir='/tmp')
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 
