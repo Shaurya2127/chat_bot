@@ -14,10 +14,8 @@ import pickle
 import numpy as np
 from tensorflow.keras.models import load_model
 import nltk
-from nltk.stem import WordNetLemmatizer
 
 # Load data and model
-lemmatizer = WordNetLemmatizer()
 model = load_model("chatbot_model.h5")
 intents = json.loads(open("intents.json").read())
 words = pickle.load(open("words.pkl", "rb"))
@@ -26,7 +24,6 @@ classes = pickle.load(open("classes.pkl", "rb"))
 # Functions
 def clean_up_sentence(sentence):
     sentence_words = sentence.lower().split() 
-    sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
     return sentence_words
 
 def bow(sentence, words):
