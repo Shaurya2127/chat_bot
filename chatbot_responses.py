@@ -19,12 +19,12 @@ import os
 
 # Download 'punkt' to a known location (e.g., /tmp)
 nltk.data.path.append('/tmp')
-nltk.download('punkt', download_dir='/tmp')
-nltk.download('wordnet', download_dir='/tmp')
-nltk.download('omw-1.4', download_dir='/tmp')
-
 if not os.path.exists('/tmp/tokenizers/punkt'):
     nltk.download('punkt', download_dir='/tmp')
+if not os.path.exists('/tmp/corpora/wordnet'):
+    nltk.download('wordnet', download_dir='/tmp')
+if not os.path.exists('/tmp/corpora/omw-1.4'):
+    nltk.download('omw-1.4', download_dir='/tmp')
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
 
